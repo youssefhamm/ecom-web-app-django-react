@@ -27,7 +27,7 @@ function ProductScreen() {
 
       <Row>
         <Col>
-          <Image src={"/images/" + product.image?.split("/image/")[1]} alt={product.name} fluid />
+          <Image src={"/images/" + product.image?.split("/images/")[1]} alt={product.name} />
         </Col>
 
         <Col md={3}>

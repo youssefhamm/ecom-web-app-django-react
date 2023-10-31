@@ -14,6 +14,7 @@ function HomeScreen() {
     fetchProducts();
   }, []);
 
+
   return (
     <div>
       <h1>Latest products</h1>
