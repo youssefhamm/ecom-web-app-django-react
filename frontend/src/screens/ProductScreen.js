@@ -1,18 +1,23 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Button, Card } from 'react-bootstrap';
 import Rating from '../components/Rating'
-import products from "../products"
 import { useParams } from 'react-router-dom' // Importez useParams depuis react-router-dom
+import axios from 'axios'
 
 function ProductScreen() {
-  const { id } = useParams(); // Utilisez useParams pour accéder au paramètre d'URL 'id'
+  const { id } = useParams();
+  const [product, setProduct] = useState({});
 
-  const product = products.find((p) => p._id == id)
+  useEffect(() => {
+    async function fetchProduct() {
+      const { data } = await axios.get(`/api/products/${id}`);
+      setProduct(data);
+    }
+    fetchProduct();
+  }, []);
 
-  if (!product) {
-    return <div>Produit non trouvé</div>
-  }
+ 
 
   return (
     <div>
@@ -22,7 +27,7 @@ function ProductScreen() {
 
       <Row>
         <Col>
-          <Image src={product.image}  alt={product.name} fluid />
+          <Image src={"/images/" + product.image?.split("/image/")[1]} alt={product.name} fluid />
         </Col>
 
         <Col md={3}>
@@ -71,7 +76,7 @@ function ProductScreen() {
               </ListGroup.Item>
 
               <ListGroup.Item>
-                <Button className='btn-block' disabled={product.countInStock} type="button" >Add to Cart</Button>
+                <Button className='btn-block' disabled={product.countInStock === 0} type="button" >Add to Cart</Button>
               </ListGroup.Item>
             </ListGroup>
           </Card>
