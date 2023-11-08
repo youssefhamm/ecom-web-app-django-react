@@ -3,7 +3,6 @@ import {
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
 
-
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL
@@ -12,7 +11,6 @@ import {
 
 export const productListeReducer = (state = { products : [] }, action) =>{
     switch (action.type) {
-
         case PRODUCT_LIST_REQUEST:
             return {loading : true, products : []}
 
