@@ -11,25 +11,18 @@ import { useParams, useNavigate } from "react-router-dom";
 
 
 function ProductScreen() {
-  const [qty, setQty] = useState(1)
-
+  const [qty, setQty] = useState(1);
   const { id } = useParams();
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
-  const { error, loading, product } = productDetails; 
+  const { error, loading, product } = productDetails;
 
   useEffect(() => {
     dispatch(listProductDetails(id));
   }, [dispatch, id]);
 
- 
-  const addToCartHandler = () => {
-    navigate(`/cart/${id}?qty=${qty}`);
-  };
-
- 
   return (
     <div>
       <h2>{product.name}</h2>
@@ -92,34 +85,30 @@ function ProductScreen() {
                   </Col>
                 </ListGroup.Item>
 
-               
-                  {product.counInStock > 0 && (
-                    <ListGroup.Item>
-                      <Row>
-                        <Col>Qty</Col>
-                        <Col xs="auto" className="my-1">
-                          <Form.Control
-                            as="select"
-                            value={qty}
-                            onChange={(e) => setQty(e.target.value)}
-                          >
-                            {
-                            
-                            [...Array(product.counInStock).keys()].map((x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              ))
-                            }
-                          </Form.Control>
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  )}
+                {product.counInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Qty</Col>
+                      <Col xs="auto" className="my-1">
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {[...Array(product.counInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
 
                 <ListGroup.Item>
                   <Button
-                    onClick={addToCartHandler()}
+                    onClick={() => navigate(`/cart/${id}?qty=${qty}`)}
                     className="btn-block"
                     disabled={product.counInStock === 0}
                     type="button"
@@ -132,7 +121,6 @@ function ProductScreen() {
           </Col>
         </Row>
       )}
-      
     </div>
   );
 }

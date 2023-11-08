@@ -4,8 +4,9 @@ import { CART_ADD_ITEM } from "../constants/cartConstants";
 
 export const addToCart = (id, qty) => async (dispatch, getState) =>{
 
-    const {data} = axios.get(`/api/products/${id}`)
-  try {
+    const {data} = await axios.get(`/api/products/${id}`)
+    
+  
     dispatch({ type: CART_ADD_ITEM,
                payload : {
                 product: data._id,
@@ -20,10 +21,4 @@ export const addToCart = (id, qty) => async (dispatch, getState) =>{
 
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 
-  } catch (error) {
-    dispatch({
-      type: PRODUCT_LIST_FAIL,
-      payload: error.response?.data ? error.response.data : error.message,
-    });
-  }
 };
