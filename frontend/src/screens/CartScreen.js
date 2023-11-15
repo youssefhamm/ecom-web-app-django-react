@@ -3,7 +3,7 @@ import { Link, useParams, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Form, Card, Button, Image, ListGroup } from 'react-bootstrap'
 import  Message from '../components/Message'
-import { addToCart } from '../actions/cartActions'
+import { addToCart, removeFromCart } from '../actions/cartActions'
 
 
 
@@ -28,10 +28,14 @@ function Cart() {
    const checkoutHandler = () => {
     navigate("/login?redirect=shipping");
   }
+
+    const removeFromCartHandler = (id) => {
+      dispatch(removeFromCart(id))
+    };
   return (
     <Row>
       <Col md={8}>
-        <h1>Shopping Cart</h1>
+        {/* <h1>Shopping Cart</h1> */}
         {cartItems.length === 0 ? (
           <Message variant="info">
             Your Cart is empty !!! <Link to="/">Go Back</Link>
@@ -61,9 +65,6 @@ function Cart() {
                     >
                       {[...Array(item.counInStock).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
-                          {console.log(
-                            [...Array(item.counInStock).keys()].length
-                          )}
                           {x + 1}
                         </option>
                       ))}
@@ -74,7 +75,7 @@ function Cart() {
                     <Button
                       type="button"
                       variant="light"
-                      // onClick={console.log("remove ", item.product)}
+                      onClick={() => removeFromCartHandler(item.product)}
                     >
                       <i className="fas fa-trash"></i>
                     </Button>
@@ -106,6 +107,7 @@ function Cart() {
           </ListGroup>
 
           <ListGroup.Item>
+            <br />
             <Button
               type="button"
               className="btn-block"
